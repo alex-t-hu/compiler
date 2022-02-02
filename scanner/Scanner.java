@@ -2,7 +2,8 @@ package scanner;
 import java.io.*;
 
 /**
- * Scanner can parse an input stream into tokens.
+ * Scanner can parse an input stream into tokens. It can also remove single-line comments and
+ * parse some multi-character tokens like "<=" and ":=."
  * @author Alex Hu
  * @version 1.28.22
  */
@@ -18,6 +19,8 @@ public class Scanner
      * Usage: 
      * FileInputStream inStream = new FileInputStream(new File(<file name>);
      * Scanner lex = new Scanner(inStream);
+     * @precondition inStream is properly initialized
+     * @postcondition a Scanner object associated with inStream is created
      * @param inStream the input stream to use
      * @throws Exception if something goes wrong with I/O
      */
@@ -34,6 +37,8 @@ public class Scanner
      * scans a given input string.  It sets the end-of-file flag an then reads
      * the first character of the input string into the instance field currentChar.
      * Usage: Scanner lex = new Scanner(input_string);
+     * @precondition inStream is properly initialized
+     * @postcondition a Scanner object associated with inStream is created
      * @param inString the string to scan
      * @throws Exception if something goes wrong with I/O
      */
@@ -79,6 +84,7 @@ public class Scanner
     /**
      * reads the next character from the input stream
      * until it reaches the end
+     * @precondition the input stream is properly initialized and the currentChar is not EOF
      * @postcondition the reader advances by 1 character
      * @throws IOException if an IO error occurs
      */
@@ -109,6 +115,7 @@ public class Scanner
      * reads the next character from the input streamm
      * and checks if the current character is what is
      * expected
+     * @precondition the input stream is properly initialized and currentChar is not the EOF
      * @postcondition the input stream is advanced by 1
      * @param expected the expected current character
      * @throws Exception either IO error or expected differs from current
