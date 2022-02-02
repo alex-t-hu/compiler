@@ -17,7 +17,7 @@ public class ScannerTester
     public static void main(String[] args) throws Exception
     {
         String filePath = "C:\\Users\\hufen\\Desktop\\AlexSchool"
-                        + "\\2021-22\\ATCS Compilers\\ScannerTest.txt";
+                        + "\\2021-22\\ATCS Compilers\\scannerTest copy.txt";
         
         FileInputStream inStream = new FileInputStream(new File(filePath));
 

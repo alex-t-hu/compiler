@@ -2,7 +2,7 @@ package scanner;
 import java.io.*;
 
 /**
- * Scanner is a simple scanner for Compilers and Interpreters (2014-2015) lab exercise 1
+ * Scanner can parse an input stream into tokens.
  * @author Alex Hu
  * @version 1.28.22
  */
@@ -79,6 +79,7 @@ public class Scanner
     /**
      * reads the next character from the input stream
      * until it reaches the end
+     * @postcondition the reader advances by 1 character
      * @throws IOException if an IO error occurs
      */
     private void getNextChar() throws IOException
@@ -108,6 +109,7 @@ public class Scanner
      * reads the next character from the input streamm
      * and checks if the current character is what is
      * expected
+     * @postcondition the input stream is advanced by 1
      * @param expected the expected current character
      * @throws Exception either IO error or expected differs from current
      */
@@ -135,6 +137,8 @@ public class Scanner
     /**
      * Scans a number from the input stream
      * A number is a sequence of digits
+     * @precondition currentChar is the start of the number
+     * @postcondition currentChar just after the end of the number
      * @return the next number in the input stream
      * @throws Exception if the number is invalid
      */
@@ -160,6 +164,8 @@ public class Scanner
     /**
      * returns the next identifier from the input stream
      * An identifier is a letter followed by letters or digits
+     * @precondition currentChar is the start of the identifier
+     * @postcondition currentChar is just after the end of the identifier
      * @return the next identifier
      * @throws Exception some IO error
      */
@@ -181,13 +187,16 @@ public class Scanner
     }
 
     /**
-     * returns the next operand from the input stream
+     * returns the next operand from the input stream, or
+     * token if the currentChar is at a single-line comment
      * operators are:
      * +, -, /, *, %, ^
      * (, )
      * $, @
      * ;
      * <, >, =, 
+     * @precondition currentChar should be an operator character
+     * @postcondition currentChar is just after the end of the token
      * @return the next operand from the input stream
      * @throws Exception if the character is not recognized
      */
@@ -197,24 +206,55 @@ public class Scanner
                 || currentChar == '=' || currentChar == '+'
                 || currentChar == '-' || currentChar == '/'
                 || currentChar == '*' || currentChar == '%'
-                || currentChar == '$' || currentChar == '@'
-                || currentChar == '^' || currentChar == ';'
+                || currentChar == ';'
                 || currentChar == ':' || currentChar == '<'
                 || currentChar == '>')
         {
             char temp = currentChar;
 
             eat(currentChar);
+            
+            if (temp == '/' && currentChar == '/')
+            {
+                while (hasNext() && currentChar != '\n')
+                {
+                    eat(currentChar);
+                }
+
+                return nextToken();
+            }
+            else if (temp == ':' && currentChar == '=')
+            {
+                return ":=";
+            }
+            else if (temp == '=' && currentChar == '=')
+            {
+                return "==";
+            }
+            else if (temp == '<' && currentChar == '=')
+            {
+                return "<=";
+            }
+            else if (temp == '>' && currentChar == '=')
+            {
+                return ">=";
+            }
+            else if (temp == '<' && currentChar == '>')
+            {
+                return "<>";
+            }
 
             return String.valueOf(temp); 
         }
 
-        throw new ScanErrorException("unrecognized character");
+        throw new ScanErrorException("unrecognized character: " + currentChar);
     }
 
     /**
      * returns the next token from the input stream
      * A token is either a number, identifier, or operator
+     * @precondition the currentChar is beyond the previous token 
+     * @postcondition currentChar is just after the end of the token 
      * @return the next token
      * @throws Exception if the next token is not valid or some IO error
      */
