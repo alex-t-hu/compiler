@@ -5,7 +5,7 @@ import java.io.*;
  * Scanner can parse an input stream into tokens. It can also remove single-line comments and
  * parse some multi-character tokens like "<=" and ":=."
  * @author Alex Hu
- * @version 1.28.22
+ * @version 3.7.22
  */
 public class Scanner
 {
@@ -232,22 +232,32 @@ public class Scanner
             }
             else if (temp == ':' && currentChar == '=')
             {
+                eat(currentChar);
+
                 return ":=";
             }
             else if (temp == '=' && currentChar == '=')
             {
+                eat(currentChar);
+
                 return "==";
             }
             else if (temp == '<' && currentChar == '=')
             {
+                eat(currentChar);
+
                 return "<=";
             }
             else if (temp == '>' && currentChar == '=')
             {
+                eat(currentChar);
+
                 return ">=";
             }
             else if (temp == '<' && currentChar == '>')
             {
+                eat(currentChar);
+
                 return "<>";
             }
 

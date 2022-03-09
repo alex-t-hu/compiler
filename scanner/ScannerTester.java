@@ -5,7 +5,7 @@ import java.io.*;
  * This is a tester for the Scanner class that has the Scanner read
  * from a text file and print out its tokens.
  * @author Alex Hu
- * @version 1.28.22
+ * @version 3.7.22
  */
 public class ScannerTester 
 {
@@ -17,7 +17,7 @@ public class ScannerTester
     public static void main(String[] args) throws Exception
     {
         String filePath = "C:\\Users\\hufen\\Desktop\\AlexSchool"
-                        + "\\2021-22\\ATCS Compilers\\scannerTest copy.txt";
+                        + "\\2021-22\\ATCS Compilers\\scanner\\ScannerTest.txt";
         
         FileInputStream inStream = new FileInputStream(new File(filePath));
 
