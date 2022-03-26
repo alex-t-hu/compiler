@@ -1,0 +1,11 @@
+BEGIN
+x := 1;
+IF x <> 2 THEN
+BEGIN
+x := 2;
+y := x + 1;
+x := x + y;
+WRITELN(x * y);
+END;
+END;
+. 
